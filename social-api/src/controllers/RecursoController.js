@@ -1,25 +1,33 @@
 // src/controllers/RecursoController.js
 import RecursoService from '../services/RecursoService.js';
 
-const recursoService = new RecursoService();
+const service = new RecursoService();
 
-export default class RecursoController {
-  static getAll(req, res) {
-    res.json(recursoService.getAllRecursos());
-  }
+const RecursoController = {
+  getAll(req, res) {
+    res.json(service.getAllRecursos());
+  },
 
-  static getByTipo(req, res) {
+  getByTipo(req, res) {
     const tipo = req.params.tipo;
-    const filtrados = recursoService.getByTipo(tipo);
-    res.json(filtrados);
-  }
+    const resultado = service.getByTipo(tipo);
+    res.json(resultado);
+  },
 
-  static getByLocalizacao(req, res) {
+  getByLocalizacao(req, res) {
     const localizacao = req.params.localizacao;
-    const filtrados = recursoService.getByLocalizacao(localizacao);
-    res.json(filtrados);
-  }
+    const resultado = service.getByLocalizacao(localizacao);
+    res.json(resultado);
+  },
 
-  //getById ?
-  // getByDoc ?
-}
+  getById(req, res) {
+    const id = req.params.id;
+    const recurso = service.getById(id);
+    if (!recurso) {
+      return res.status(404).json({ erro: 'Recurso não encontrado' });
+    }
+    res.json(recurso);
+  }
+};
+
+export default RecursoController;
